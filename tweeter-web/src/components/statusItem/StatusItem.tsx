@@ -10,6 +10,7 @@ interface Props {
     user: User
     formattedDate: string,
     status: Status
+    featureURL: string
 }
 
 const StatusItem = (props: Props) => {
@@ -74,7 +75,7 @@ const StatusItem = (props: Props) => {
                         </b>{" "}
                         -{" "}
                         <Link
-                            to={`/story/${props.user.alias}`}
+                            to={`${props.featureURL}/${props.user.alias}`}
                             onClick={navigateToUser}
                         >
                             {props.user.alias}
@@ -82,7 +83,7 @@ const StatusItem = (props: Props) => {
                     </h2>
                     {props.formattedDate}
                     <br />
-                    <Post status={props.status} featurePath="/story" />
+                    <Post status={props.status} featurePath={props.featureURL} />
                     </div>
                 </div>
             </div>
