@@ -3,13 +3,13 @@ import { AuthToken, User, FakeData } from "tweeter-shared";
 import { useUserInfo, useUserInfoActions } from "./UserInfoHooks";
 import { useMessageActions } from "../toaster/MessageHooks";
 
-export const useUserNavigation = (event: React.MouseEvent, path: string) => {
+export const useUserNavigation = () => {
     const { setDisplayedUser } = useUserInfoActions();
     const navigate = useNavigate();
     const { displayedUser, authToken } = useUserInfo();
     const { displayErrorMessage } = useMessageActions();
     
-    const navigateToUser = async (): Promise<void> => {
+    const navigateToUser = async (event: React.MouseEvent, path: string): Promise<void> => {
         event.preventDefault();
     
         try {
@@ -43,5 +43,5 @@ export const useUserNavigation = (event: React.MouseEvent, path: string) => {
         return FakeData.instance.findUserByAlias(alias);
     };
 
-    return navigateToUser();
+    return navigateToUser;
 }
