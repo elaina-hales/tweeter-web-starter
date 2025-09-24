@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthToken, FakeData, User } from "tweeter-shared";
 import { useMessageActions } from "../toaster/MessageHooks";
-import { useUserActionsInfo, useUserInfo } from "./UserInfoHooks";
+import { useUserInfoActions, useUserInfo } from "./UserInfoHooks";
 
 const UserInfo = () => {
   const [isFollower, setIsFollower] = useState(false);
@@ -14,7 +14,7 @@ const UserInfo = () => {
   const { displayInfoMessage, displayErrorMessage, deleteMessage } = useMessageActions();
 
   const { currentUser, authToken, displayedUser } = useUserInfo();
-  const { setDisplayedUser } = useUserActionsInfo();
+  const { setDisplayedUser } = useUserInfoActions();
   const navigate = useNavigate();
   const location = useLocation();
 

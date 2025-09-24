@@ -4,12 +4,12 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Image from "react-bootstrap/Image";
 import { AuthToken } from "tweeter-shared";
 import { useMessageActions } from "../toaster/MessageHooks";
-import { useUserActionsInfo, useUserInfo } from "../userInfo/UserInfoHooks";
+import { useUserInfoActions, useUserInfo } from "../userInfo/UserInfoHooks";
 
 const AppNavbar = () => {
   const location = useLocation();
   const { authToken, displayedUser } = useUserInfo();
-  const { clearUserInfo } = useUserActionsInfo();
+  const { clearUserInfo } = useUserInfoActions();
   const navigate = useNavigate();
   const { displayInfoMessage, displayErrorMessage, deleteMessage } = useMessageActions();
 

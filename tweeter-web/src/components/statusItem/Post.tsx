@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { AuthToken, FakeData, Status, Type, User } from "tweeter-shared";
 import { useMessageActions } from "../toaster/MessageHooks";
-import { useUserActionsInfo } from "../userInfo/UserInfoHooks";
+import { useUserInfoActions, useUserInfo } from "../userInfo/UserInfoHooks";
 
 interface Props {
   status: Status;
@@ -11,7 +11,7 @@ interface Props {
 const Post = (props: Props) => {
   const { displayErrorMessage } = useMessageActions();
   const { displayedUser, authToken } = useUserInfo();
-  const { setDisplayedUser } = useUserActionsInfo();
+  const { setDisplayedUser } = useUserInfoActions();
 
   const navigate = useNavigate();
   const navigateToUser = async (event: React.MouseEvent): Promise<void> => {
@@ -79,7 +79,3 @@ const Post = (props: Props) => {
 };
 
 export default Post;
-function useUserInfo(): { displayedUser: any; authToken: any; } {
-  throw new Error("Function not implemented.");
-}
-

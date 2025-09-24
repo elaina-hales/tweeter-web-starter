@@ -5,6 +5,6 @@ export const useUserInfo = () => {
     return useContext(UserInfoContext);
 }
 
-export const useUserActionsInfo = () => {
+export const useUserInfoActions = () => {
     return useContext(UserInfoActionsContext);
 }
