@@ -4,8 +4,6 @@ import { UserItemPresenter, UserItemView } from "./UserItemPresenter";
 
 export const PAGE_SIZE = 10;
 
-
-
 export class FolloweePresenter extends UserItemPresenter {
 
     private service: FollowService;

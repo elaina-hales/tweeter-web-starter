@@ -55,7 +55,6 @@ const UserItemScroller = (props: Props) => {
   const reset = async () => {
     setItems(() => []);
     presenterRef.current!.reset();
-
   };
 
   const loadMoreItems = async () => {
