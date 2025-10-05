@@ -51,5 +51,4 @@ export abstract class UserItemPresenter {
     };
 
     public abstract loadMoreItems(authToken: AuthToken, userAlias: string) : void
-    
 }

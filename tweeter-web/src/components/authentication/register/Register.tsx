@@ -1,15 +1,19 @@
 import "./Register.css";
 import "bootstrap/dist/css/bootstrap.css";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthenticationFormLayout from "../AuthenticationFormLayout";
-import { AuthToken, FakeData, User } from "tweeter-shared";
+import { AuthToken, User } from "tweeter-shared";
 import { Buffer } from "buffer";
 import AuthenticationFields from "../AuthenticationFields";
 import { useMessageActions } from "../../toaster/MessageHooks";
 import { useUserInfoActions } from "../../userInfo/UserInfoHooks";
+import { AuthenticationView, AuthenticationPresenter } from "../../../presenter/AuthenticationPresenter";
+interface Props {
+  presenterFactory: (view: AuthenticationView) => AuthenticationPresenter
+}
 
-const Register = () => {
+const Register = (props: Props) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [alias, setAlias] = useState("");
@@ -23,6 +27,15 @@ const Register = () => {
   const navigate = useNavigate();
   const { updateUserInfo } = useUserInfoActions();
   const { displayErrorMessage } = useMessageActions();
+
+  const listener: AuthenticationView = {
+      displayErrorMessage: displayErrorMessage
+    }
+    
+  const presenterRef = useRef<AuthenticationPresenter | null>(null);
+    if(!presenterRef.current){
+      presenterRef.current = props.presenterFactory(listener);
+  }
 
   const checkSubmitButtonStatus = (): boolean => {
     return (
@@ -86,13 +99,14 @@ const Register = () => {
     try {
       setIsLoading(true);
 
-      const [user, authToken] = await register(
+      const [user, authToken] = await presenterRef.current!.loginOrRegister(
         firstName,
         lastName,
         alias,
         password,
         imageBytes,
-        imageFileExtension
+        imageFileExtension,
+        false
       );
 
       updateUserInfo(user, user, authToken, rememberMe);
@@ -104,28 +118,6 @@ const Register = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const register = async (
-    firstName: string,
-    lastName: string,
-    alias: string,
-    password: string,
-    userImageBytes: Uint8Array,
-    imageFileExtension: string
-  ): Promise<[User, AuthToken]> => {
-    // Not neded now, but will be needed when you make the request to the server in milestone 3
-    const imageStringBase64: string =
-      Buffer.from(userImageBytes).toString("base64");
-
-    // TODO: Replace with the result of calling the server
-    const user = FakeData.instance.firstUser;
-
-    if (user === null) {
-      throw new Error("Invalid registration");
-    }
-
-    return [user, FakeData.instance.authToken];
   };
 
   const inputFieldFactory = () => {

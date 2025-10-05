@@ -1,15 +1,15 @@
 import "./Login.css";
 import "bootstrap/dist/css/bootstrap.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthenticationFormLayout from "../AuthenticationFormLayout";
-import { AuthToken, FakeData, User } from "tweeter-shared";
 import AuthenticationFields from "../AuthenticationFields";
 import { useMessageActions } from "../../toaster/MessageHooks";
 import { useUserInfoActions } from "../../userInfo/UserInfoHooks";
-
+import { AuthenticationPresenter, AuthenticationView } from "../../../presenter/AuthenticationPresenter";
 interface Props {
   originalUrl?: string;
+  presenterFactory: (view: AuthenticationView) => AuthenticationPresenter
 }
 
 const Login = (props: Props) => {
@@ -21,6 +21,15 @@ const Login = (props: Props) => {
   const navigate = useNavigate();
   const { updateUserInfo } = useUserInfoActions();
   const { displayErrorMessage } = useMessageActions();
+
+  const listener: AuthenticationView = {
+    displayErrorMessage: displayErrorMessage
+  }
+  
+  const presenterRef = useRef<AuthenticationPresenter | null>(null);
+    if(!presenterRef.current){
+      presenterRef.current = props.presenterFactory(listener);
+  }
 
   const checkSubmitButtonStatus = (): boolean => {
     return !alias || !password;
@@ -36,7 +45,8 @@ const Login = (props: Props) => {
     try {
       setIsLoading(true);
 
-      const [user, authToken] = await login(alias, password);
+      // need to get login working here
+      const [user, authToken] = await presenterRef.current!.loginOrRegister(alias, password, null, null, null, null, false);
 
       updateUserInfo(user, user, authToken, rememberMe);
 
@@ -52,20 +62,6 @@ const Login = (props: Props) => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const login = async (
-    alias: string,
-    password: string
-  ): Promise<[User, AuthToken]> => {
-    // TODO: Replace with the result of calling the server
-    const user = FakeData.instance.firstUser;
-
-    if (user === null) {
-      throw new Error("Invalid alias or password");
-    }
-
-    return [user, FakeData.instance.authToken];
   };
 
   const inputFieldFactory = () => {

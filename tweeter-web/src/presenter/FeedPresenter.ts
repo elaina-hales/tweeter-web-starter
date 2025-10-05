@@ -26,7 +26,7 @@ export class FeedPresenter extends StatusItemPresenter {
             this.view.addItems(newItems);
         } catch (error) {
             this.view.displayErrorMessage(
-            `Failed to load followers because of exception: ${error}`,
+            `Failed to load feed because of exception: ${error}`,
           );
         }
     };
