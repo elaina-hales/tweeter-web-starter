@@ -8,37 +8,45 @@ export interface UserInfoView {
 }
 
 export class UserInfoPresenter {
-    private service: UserService;
-    private view: UserInfoView;
+  private service: UserService;
+  private view: UserInfoView;
 
-    public constructor(view: UserInfoView) {
-        this.service = new UserService();
-        this.view = view;
-    }
+  public constructor(view: UserInfoView) {
+      this.service = new UserService();
+      this.view = view;
+  }
 
-    public async getIsFollowerStatus (
-        authToken: AuthToken,
-        user: User,
-        selectedUser: User
-      ): Promise<boolean> {
-        // TODO: Replace with the result of calling server
-        return this.service.getIsFollowerStatus(authToken, user, selectedUser);
-      };
-    
-    public async getFolloweeCount (
-        authToken: AuthToken,
-        user: User
+  public async getIsFollowerStatus (
+      authToken: AuthToken,
+      user: User,
+      selectedUser: User
+    ): Promise<boolean> {
+      // TODO: Replace with the result of calling server
+      return this.service.getIsFollowerStatus(authToken, user, selectedUser);
+    };
+  
+  public async getFolloweeCount (
+      authToken: AuthToken,
+      user: User
+    ): Promise<number> {
+      // TODO: Replace with the result of calling server
+      return this.service.getFolloweeCount(authToken, user);
+  };
+  
+  public async getFollowerCount (
+      authToken: AuthToken,
+      user: User
       ): Promise<number> {
-        // TODO: Replace with the result of calling server
-        return this.service.getFolloweeCount(authToken, user);
-    };
-    
-    public async getFollowerCount (
-        authToken: AuthToken,
-        user: User
-        ): Promise<number> {
-        // TODO: Replace with the result of calling server
-        return this.service.getFollowerCount(authToken, user);
-    };
+      // TODO: Replace with the result of calling server
+      return this.service.getFollowerCount(authToken, user);
+  };
+
+  public async getUser (
+      authToken: AuthToken,
+      alias: string
+      ): Promise<User | null> {
+      // TODO: Replace with the result of calling server
+      return this.service.getUser(authToken, alias);
+  }; 
 
 }

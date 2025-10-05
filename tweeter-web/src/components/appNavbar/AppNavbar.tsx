@@ -18,7 +18,6 @@ const AppNavbar = () => {
 
     try {
       await logout(authToken!);
-
       deleteMessage(loggingOutToastId);
       clearUserInfo();
       navigate("/login");
