@@ -1,4 +1,4 @@
-import { User, AuthToken, FakeData } from "tweeter-shared";
+import { User, AuthToken } from "tweeter-shared";
 import { AuthenticationPresenter, AuthenticationView } from "./AuthenticationPresenter";
 import { UserService } from "../model.service/UserService";
 
