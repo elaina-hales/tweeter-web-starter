@@ -3,8 +3,13 @@ import { useState } from "react";
 import { AuthToken, Status } from "tweeter-shared";
 import { useMessageActions } from "../toaster/MessageHooks";
 import { useUserInfo } from "../userInfo/UserInfoHooks";
+import { PostStatusPresenter } from "../../presenter/PostStatusPresenter";
 
-const PostStatus = () => {
+interface Props {
+  presenter: PostStatusPresenter
+}
+
+const PostStatus = (props: Props) => {
   const { displayInfoMessage, displayErrorMessage, deleteMessage } = useMessageActions();
 
   const { currentUser, authToken } = useUserInfo();
@@ -25,7 +30,7 @@ const PostStatus = () => {
 
       const status = new Status(post, currentUser!, Date.now());
 
-      await postStatus(authToken!, status);
+      await props.presenter.postStatus(authToken!, status);
 
       setPost("");
       displayInfoMessage("Status posted!", 2000);
@@ -37,16 +42,6 @@ const PostStatus = () => {
       deleteMessage(postingStatusToastId);
       setIsLoading(false);
     }
-  };
-
-  const postStatus = async (
-    authToken: AuthToken,
-    newStatus: Status
-  ): Promise<void> => {
-    // Pause so we can see the logging out message. Remove when connected to the server
-    await new Promise((f) => setTimeout(f, 2000));
-
-    // TODO: Call the server to post the status
   };
 
   const clearPost = (event: React.MouseEvent) => {

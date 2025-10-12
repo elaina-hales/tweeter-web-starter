@@ -4,6 +4,7 @@ import AppNavbar from "../appNavbar/AppNavbar";
 import PostStatus from "../postStatus/PostStatus";
 import UserInfo from "../userInfo/UserInfoComponent";
 import { UserInfoPresenter, UserInfoView } from "../../presenter/UserInfoPresenter";
+import { PostStatusPresenter } from "../../presenter/PostStatusPresenter";
 
 const MainLayout = () => {
   return (
@@ -17,7 +18,7 @@ const MainLayout = () => {
                 <UserInfo presenterFactory={(view: UserInfoView) => new UserInfoPresenter(view)}/>
               </div>
               <div className="p-3 border mt-1 rounded bg-light">
-                <PostStatus />
+                <PostStatus presenter={new PostStatusPresenter()}/>
               </div>
             </div>
           </div>
