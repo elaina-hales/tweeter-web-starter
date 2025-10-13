@@ -49,4 +49,34 @@ export class UserInfoPresenter {
       return this.service.getUser(authToken, alias);
   }; 
 
+  public async follow (
+    authToken: AuthToken,
+    userToFollow: User
+  ): Promise<[followerCount: number, followeeCount: number]> {
+    // Pause so we can see the follow message. Remove when connected to the server
+    await this.service.follow();
+
+    // TODO: Call the server
+
+    const followerCount = await this.getFollowerCount(authToken, userToFollow);
+    const followeeCount = await this.getFolloweeCount(authToken, userToFollow);
+
+    return [followerCount, followeeCount];
+  };
+
+  public async unfollow (
+    authToken: AuthToken,
+    userToUnfollow: User
+  ): Promise<[followerCount: number, followeeCount: number]> {
+    // Pause so we can see the unfollow message. Remove when connected to the server
+    await this.service.unfollow();
+
+    // TODO: Call the server
+
+    const followerCount = await this.getFollowerCount(authToken, userToUnfollow);
+    const followeeCount = await this.getFolloweeCount(authToken, userToUnfollow);
+
+    return [followerCount, followeeCount];
+  };
+
 }

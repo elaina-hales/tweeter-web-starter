@@ -75,4 +75,12 @@ export class UserService {
     // Pause so we can see the logging out message. Delete when the call to the server is implemented.
         await new Promise((res) => setTimeout(res, 1000));
   };
+
+  public async unfollow () {
+    await new Promise((f) => setTimeout(f, 2000));
+  };
+
+  public async follow() {
+    await new Promise((f) => setTimeout(f, 2000));
+  };
 }

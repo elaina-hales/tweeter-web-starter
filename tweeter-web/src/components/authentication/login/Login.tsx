@@ -7,9 +7,9 @@ import AuthenticationFields from "../AuthenticationFields";
 import { useMessageActions } from "../../toaster/MessageHooks";
 import { useUserInfoActions } from "../../userInfo/UserInfoHooks";
 import { AuthenticationPresenter, AuthenticationView } from "../../../presenter/AuthenticationPresenter";
+import { LoginPresenter } from "../../../presenter/LoginPresenter";
 interface Props {
   originalUrl?: string;
-  presenterFactory: (view: AuthenticationView) => AuthenticationPresenter
 }
 
 const Login = (props: Props) => {
@@ -23,12 +23,15 @@ const Login = (props: Props) => {
   const { displayErrorMessage } = useMessageActions();
 
   const listener: AuthenticationView = {
-    displayErrorMessage: displayErrorMessage
+    displayErrorMessage: displayErrorMessage,
+    setIsLoading: setIsLoading,
+    navigate: navigate,
+    updateUserInfo: updateUserInfo
   }
   
-  const presenterRef = useRef<AuthenticationPresenter | null>(null);
+  const presenterRef = useRef<LoginPresenter | null>(null);
     if(!presenterRef.current){
-      presenterRef.current = props.presenterFactory(listener);
+      presenterRef.current = new LoginPresenter(listener);
   }
 
   const checkSubmitButtonStatus = (): boolean => {
@@ -42,26 +45,7 @@ const Login = (props: Props) => {
   };
 
   const doLogin = async () => {
-    try {
-      setIsLoading(true);
-
-      // need to get login working here
-      const [user, authToken] = await presenterRef.current!.loginOrRegister(alias, password, null, null, null, null, false);
-
-      updateUserInfo(user, user, authToken, rememberMe);
-
-      if (!!props.originalUrl) {
-        navigate(props.originalUrl);
-      } else {
-        navigate(`/feed/${user.alias}`);
-      }
-    } catch (error) {
-      displayErrorMessage(
-        `Failed to log user in because of exception: ${error}`
-      );
-    } finally {
-      setIsLoading(false);
-    }
+    presenterRef.current!.doLogin(alias, password, rememberMe, props.originalUrl)
   };
 
   const inputFieldFactory = () => {

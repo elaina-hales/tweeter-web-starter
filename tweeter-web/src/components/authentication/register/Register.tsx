@@ -8,12 +8,9 @@ import { Buffer } from "buffer";
 import AuthenticationFields from "../AuthenticationFields";
 import { useMessageActions } from "../../toaster/MessageHooks";
 import { useUserInfoActions } from "../../userInfo/UserInfoHooks";
-import { AuthenticationView, AuthenticationPresenter } from "../../../presenter/AuthenticationPresenter";
-interface Props {
-  presenterFactory: (view: AuthenticationView) => AuthenticationPresenter
-}
+import { RegisterPresenter, RegisterView } from "../../../presenter/RegisterPresenter";
 
-const Register = (props: Props) => {
+const Register = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [alias, setAlias] = useState("");
@@ -28,13 +25,19 @@ const Register = (props: Props) => {
   const { updateUserInfo } = useUserInfoActions();
   const { displayErrorMessage } = useMessageActions();
 
-  const listener: AuthenticationView = {
-      displayErrorMessage: displayErrorMessage
-    }
+  const listener: RegisterView = {
+    displayErrorMessage: displayErrorMessage,
+    setIsLoading: setIsLoading,
+    navigate: navigate,
+    updateUserInfo: updateUserInfo,
+    setImageUrl: setImageUrl,
+    setImageBytes: setImageBytes,
+    setImageFileExtension: setImageFileExtension
+  }
     
-  const presenterRef = useRef<AuthenticationPresenter | null>(null);
+  const presenterRef = useRef<RegisterPresenter | null>(null);
     if(!presenterRef.current){
-      presenterRef.current = props.presenterFactory(listener);
+      presenterRef.current = new RegisterPresenter(listener);
   }
 
   const checkSubmitButtonStatus = (): boolean => {
@@ -81,7 +84,7 @@ const Register = (props: Props) => {
       reader.readAsDataURL(file);
 
       // Set image file extension (and move to a separate method)
-      const fileExtension = getFileExtension(file);
+      const fileExtension = presenterRef.current!.getFileExtension(file);
       if (fileExtension) {
         setImageFileExtension(fileExtension);
       }
@@ -91,22 +94,17 @@ const Register = (props: Props) => {
     }
   };
 
-  const getFileExtension = (file: File): string | undefined => {
-    return file.name.split(".").pop();
-  };
-
   const doRegister = async () => {
     try {
       setIsLoading(true);
 
-      const [user, authToken] = await presenterRef.current!.loginOrRegister(
+      const [user, authToken] = await presenterRef.current!.register(
         firstName,
         lastName,
         alias,
         password,
         imageBytes,
         imageFileExtension,
-        false
       );
 
       updateUserInfo(user, user, authToken, rememberMe);

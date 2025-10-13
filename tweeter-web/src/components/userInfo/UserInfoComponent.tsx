@@ -113,7 +113,7 @@ const UserInfo = (props: Props) => {
         0
       );
 
-      const [followerCount, followeeCount] = await follow(
+      const [followerCount, followeeCount] = await presenterRef.current!.follow(
         authToken!,
         displayedUser!
       );
@@ -131,21 +131,6 @@ const UserInfo = (props: Props) => {
     }
   };
 
-  const follow = async (
-    authToken: AuthToken,
-    userToFollow: User
-  ): Promise<[followerCount: number, followeeCount: number]> => {
-    // Pause so we can see the follow message. Remove when connected to the server
-    await new Promise((f) => setTimeout(f, 2000));
-
-    // TODO: Call the server
-
-    const followerCount = await presenterRef.current!.getFollowerCount(authToken, userToFollow);
-    const followeeCount = await presenterRef.current!.getFolloweeCount(authToken, userToFollow);
-
-    return [followerCount, followeeCount];
-  };
-
   const unfollowDisplayedUser = async (
     event: React.MouseEvent
   ): Promise<void> => {
@@ -160,7 +145,7 @@ const UserInfo = (props: Props) => {
         0
       );
 
-      const [followerCount, followeeCount] = await unfollow(
+      const [followerCount, followeeCount] = await presenterRef.current!.unfollow(
         authToken!,
         displayedUser!
       );
@@ -176,21 +161,6 @@ const UserInfo = (props: Props) => {
       deleteMessage(unfollowingUserToast);
       setIsLoading(false);
     }
-  };
-
-  const unfollow = async (
-    authToken: AuthToken,
-    userToUnfollow: User
-  ): Promise<[followerCount: number, followeeCount: number]> => {
-    // Pause so we can see the unfollow message. Remove when connected to the server
-    await new Promise((f) => setTimeout(f, 2000));
-
-    // TODO: Call the server
-
-    const followerCount = await presenterRef.current!.getFollowerCount(authToken, userToUnfollow);
-    const followeeCount = await presenterRef.current!.getFolloweeCount(authToken, userToUnfollow);
-
-    return [followerCount, followeeCount];
   };
 
   return (
