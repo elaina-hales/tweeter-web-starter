@@ -4,12 +4,12 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Image from "react-bootstrap/Image";
 import { useMessageActions } from "../toaster/MessageHooks";
 import { useUserInfoActions, useUserInfo } from "../userInfo/UserInfoHooks";
-import { LogoutPresenter } from "../../presenter/LogoutPresenter";
+import { LogoutPresenter, LogoutView } from "../../presenter/LogoutPresenter";
+import { useRef } from "react";
 
 interface Props {
-  presenter: LogoutPresenter;
+  presenterFactory: (view: LogoutView) => LogoutPresenter
 }
-
 
 const AppNavbar = (props: Props) => {
   const location = useLocation();
@@ -18,19 +18,21 @@ const AppNavbar = (props: Props) => {
   const navigate = useNavigate();
   const { displayInfoMessage, displayErrorMessage, deleteMessage } = useMessageActions();
 
-  const logOut = async () => {
-    const loggingOutToastId = displayInfoMessage("Logging Out...", 0);
+  const listener: LogoutView = {
+      displayErrorMessage: displayErrorMessage,
+      displayInfoMessage: displayInfoMessage,
+      deleteMessage: deleteMessage,
+      clearUserInfo: clearUserInfo,
+      navigate: navigate
+  }
+  
+  const presenterRef = useRef<LogoutPresenter | null>(null);
+  if(!presenterRef.current){
+    presenterRef.current = props.presenterFactory(listener);
+  }
 
-    try {
-      await props.presenter.logout(authToken!);
-      deleteMessage(loggingOutToastId);
-      clearUserInfo();
-      navigate("/login");
-    } catch (error) {
-      displayErrorMessage(
-        `Failed to log user out because of exception: ${error}`,
-      );
-    }
+  const logOut = async () => {
+    presenterRef.current!.logout(authToken!);
   };
 
   return (

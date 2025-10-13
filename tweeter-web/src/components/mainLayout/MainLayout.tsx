@@ -5,11 +5,12 @@ import PostStatus from "../postStatus/PostStatus";
 import UserInfo from "../userInfo/UserInfoComponent";
 import { UserInfoPresenter, UserInfoView } from "../../presenter/UserInfoPresenter";
 import { PostStatusPresenter } from "../../presenter/PostStatusPresenter";
+import { LogoutPresenter, LogoutView } from "../../presenter/LogoutPresenter";
 
 const MainLayout = () => {
   return (
     <>
-      <AppNavbar />
+      <AppNavbar presenterFactory={(view: LogoutView) => new LogoutPresenter(view)}/>
       <div className="container mx-auto px-3 w-100">
         <div className="row gx-4">
           <div className="col-4">
