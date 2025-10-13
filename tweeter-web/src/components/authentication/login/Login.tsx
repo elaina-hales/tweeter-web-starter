@@ -6,7 +6,7 @@ import AuthenticationFormLayout from "../AuthenticationFormLayout";
 import AuthenticationFields from "../AuthenticationFields";
 import { useMessageActions } from "../../toaster/MessageHooks";
 import { useUserInfoActions } from "../../userInfo/UserInfoHooks";
-import { AuthenticationPresenter, AuthenticationView } from "../../../presenter/AuthenticationPresenter";
+import { AuthenticationView } from "../../../presenter/AuthenticationPresenter";
 import { LoginPresenter } from "../../../presenter/LoginPresenter";
 interface Props {
   originalUrl?: string;
