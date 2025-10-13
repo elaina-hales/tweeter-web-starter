@@ -1,5 +1,4 @@
 import { AuthToken } from "tweeter-shared";
-import { AuthenticationPresenter, AuthenticationView } from "./AuthenticationPresenter";
 import { UserService } from "../model.service/UserService";
 
 export const PAGE_SIZE = 10;

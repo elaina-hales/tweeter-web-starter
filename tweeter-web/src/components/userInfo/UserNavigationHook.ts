@@ -1,9 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { AuthToken, User } from "tweeter-shared";
 import { useUserInfo, useUserInfoActions } from "./UserInfoHooks";
 import { useMessageActions } from "../toaster/MessageHooks";
 import { useRef } from "react";
-import { UserItemView, UserItemPresenter } from "../../presenter/UserItemPresenter";
 import { UserInfoPresenter, UserInfoView } from "../../presenter/UserInfoPresenter";
 
 export const useUserNavigation = () => {

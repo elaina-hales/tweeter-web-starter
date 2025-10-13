@@ -1,12 +1,11 @@
 import "./PostStatus.css";
-import { useState } from "react";
-import { AuthToken, Status } from "tweeter-shared";
+import { useRef, useState } from "react";
 import { useMessageActions } from "../toaster/MessageHooks";
 import { useUserInfo } from "../userInfo/UserInfoHooks";
-import { PostStatusPresenter } from "../../presenter/PostStatusPresenter";
+import { PostStatusPresenter, PostStatusView } from "../../presenter/PostStatusPresenter";
 
 interface Props {
-  presenter: PostStatusPresenter
+  presenterFactory: (view: PostStatusView) => PostStatusPresenter
 }
 
 const PostStatus = (props: Props) => {
@@ -16,32 +15,23 @@ const PostStatus = (props: Props) => {
   const [post, setPost] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const listener: PostStatusView = {
+    displayErrorMessage: displayErrorMessage,
+    displayInfoMessage: displayInfoMessage,
+    deleteMessage: deleteMessage,
+    setIsLoading: setIsLoading,
+    setPost: setPost
+  }
+  
+  const presenterRef = useRef<PostStatusPresenter | null>(null);
+  if(!presenterRef.current){
+    presenterRef.current = props.presenterFactory(listener);
+  }
+
   const submitPost = async (event: React.MouseEvent) => {
     event.preventDefault();
-
     var postingStatusToastId = "";
-
-    try {
-      setIsLoading(true);
-      postingStatusToastId = displayInfoMessage(
-        "Posting status...",
-        0
-      );
-
-      const status = new Status(post, currentUser!, Date.now());
-
-      await props.presenter.postStatus(authToken!, status);
-
-      setPost("");
-      displayInfoMessage("Status posted!", 2000);
-    } catch (error) {
-      displayErrorMessage(
-        `Failed to post the status because of exception: ${error}`,
-      );
-    } finally {
-      deleteMessage(postingStatusToastId);
-      setIsLoading(false);
-    }
+    presenterRef.current!.submitPost(postingStatusToastId, post, currentUser!, authToken!);
   };
 
   const clearPost = (event: React.MouseEvent) => {

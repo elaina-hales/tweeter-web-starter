@@ -4,7 +4,7 @@ import AppNavbar from "../appNavbar/AppNavbar";
 import PostStatus from "../postStatus/PostStatus";
 import UserInfo from "../userInfo/UserInfoComponent";
 import { UserInfoPresenter, UserInfoView } from "../../presenter/UserInfoPresenter";
-import { PostStatusPresenter } from "../../presenter/PostStatusPresenter";
+import { PostStatusPresenter, PostStatusView } from "../../presenter/PostStatusPresenter";
 import { LogoutPresenter, LogoutView } from "../../presenter/LogoutPresenter";
 
 const MainLayout = () => {
@@ -19,7 +19,7 @@ const MainLayout = () => {
                 <UserInfo presenterFactory={(view: UserInfoView) => new UserInfoPresenter(view)}/>
               </div>
               <div className="p-3 border mt-1 rounded bg-light">
-                <PostStatus presenter={new PostStatusPresenter()}/>
+                <PostStatus presenterFactory={(view: PostStatusView) => new PostStatusPresenter(view)}/>
               </div>
             </div>
           </div>
