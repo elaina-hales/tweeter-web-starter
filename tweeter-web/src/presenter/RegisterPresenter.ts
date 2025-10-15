@@ -30,7 +30,7 @@ export class RegisterPresenter {
     try {
       this.view.setIsLoading(true);
 
-      const [user, authToken] = await this.register(
+      const [user, authToken] = await this.service.register(
         firstName,
         lastName,
         alias,
@@ -48,17 +48,6 @@ export class RegisterPresenter {
     } finally {
       this.view.setIsLoading(false);
     }
-  };
-
-  public async register (
-        alias: string,
-        password: string,
-        firstName: string,
-        lastName: string,
-        imageBytes: Uint8Array,
-        imageFileExtension : string,
-    ): Promise<[User, AuthToken]> {
-        return this.service.register(alias, password, firstName!, lastName!, imageBytes!, imageFileExtension!);
   };
   
   public async handleImageFile(file: File | undefined) {

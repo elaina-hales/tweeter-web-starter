@@ -1,4 +1,3 @@
-import { User, AuthToken } from "tweeter-shared";
 import { AuthenticationPresenter, AuthenticationView } from "./AuthenticationPresenter";
 import { UserService } from "../model.service/UserService";
 
@@ -14,30 +13,26 @@ export class LoginPresenter extends AuthenticationPresenter {
 
     public async doLogin(alias: string, password: string, rememberMe: boolean, originalUrl: string | undefined) {
         try {
-            this._view.setIsLoading(true);
-            // need to get login working here
-            const [user, authToken] = await this.login(alias, password);
+            // why does mine in here look different?
+            // set is loading is gone, instead of updateuserinfo its authenticated?
+            // what should I do with try catch finally blocks?
+            this.view.setIsLoading(true);
 
-            this._view.updateUserInfo(user, user, authToken, rememberMe);
+            const [user, authToken] = await this.service.login(alias, password);
+
+            this.view.updateUserInfo(user, user, authToken, rememberMe);
 
             if (!!originalUrl) {
-                this._view.navigate(originalUrl);
+                this.view.navigate(originalUrl);
             } else {
-                this._view.navigate(`/feed/${user.alias}`);
+                this.view.navigate(`/feed/${user.alias}`);
             }
         } catch (error) {
-            this._view.displayErrorMessage(
+            this.view.displayErrorMessage(
                 `Failed to log user in because of exception: ${error}`
-        );
+            );
         } finally {
-            this._view.setIsLoading(false);
+            this.view.setIsLoading(false);
         }
     }
-
-    public async login(
-        alias: string,
-        password: string,
-    ): Promise<[User, AuthToken]> {
-        return this.service.login(alias, password);
-    };   
 }
