@@ -9,8 +9,8 @@ export class FolloweePresenter extends UserItemPresenter {
     private service: FollowService;
 
     public constructor(view: UserItemView) {
-        super(view);
-        this.service = new FollowService();
+      super(view);
+      this.service = new FollowService();
     }
 
     public async loadMoreItems(authToken: AuthToken, userAlias: string) {

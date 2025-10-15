@@ -18,7 +18,7 @@ export class PostStatusPresenter extends Presenter<PostStatusView> {
     }
 
     public async submitPost(postingStatusToastId: string | void, post: string, currentUser: User, authToken: AuthToken) {
-        try {
+        await this.doFailureReortingOperation(async() => {
             this.view.setIsLoading(true);
             postingStatusToastId = this.view.displayInfoMessage(
                 "Posting status...",
@@ -31,13 +31,8 @@ export class PostStatusPresenter extends Presenter<PostStatusView> {
 
             this.view.setPost("");
             this.view.displayInfoMessage("Status posted!", 2000);
-        } catch (error) {
-            this.view.displayErrorMessage(
-                `Failed to post the status because of exception: ${error}`,
-            );
-        } finally {
-            this.view.deleteMessage(postingStatusToastId!);
-            this.view.setIsLoading(false);
-        }
+        }, "post the status");
+        this.view.deleteMessage(postingStatusToastId!);
+        this.view.setIsLoading(false);
     }
 }

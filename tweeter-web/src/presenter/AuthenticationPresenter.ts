@@ -2,9 +2,9 @@ import { UserService } from "../model.service/UserService";
 import { View, Presenter } from "./Presenter";
 
 export interface AuthenticationView extends View {
-    setIsLoading: any;
-    navigate: any;
-    updateUserInfo: any;
+    setIsLoading: any,
+    navigate: any,
+    updateUserInfo: any
 }
 
 export abstract class AuthenticationPresenter extends Presenter<AuthenticationView> {
