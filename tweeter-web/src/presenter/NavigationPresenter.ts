@@ -1,6 +1,4 @@
 import { AuthToken, User } from "tweeter-shared";
-import { FollowService } from "../model.service/FollowService";
-import { UserItemPresenter, UserItemView } from "./UserItemPresenter";
 import { UserService } from "../model.service/UserService";
 import { Presenter, View } from "./Presenter";
 

@@ -1,49 +1,9 @@
-import { AuthToken, Status, User } from "tweeter-shared";
-import { UserService } from "../model.service/UserService";
-import { Presenter, View } from "./Presenter";
+import { Status } from "tweeter-shared";
+import { PageItemPresenter } from "./PageItemPresenter";
+import { StatusService } from "../model.service/StatusService";
 
-export interface StatusItemView extends View {
-    addItems: (items: Status[]) => void;
-}
-
-export abstract class StatusItemPresenter extends Presenter<StatusItemView> {
-    private _hasMoreItems = true;
-    private _lastItem: Status | null = null;
-    private userService: UserService;
-
-    protected constructor(view: StatusItemView){
-        super(view);
-        this.userService = new UserService();
+export abstract class StatusItemPresenter extends PageItemPresenter<Status, StatusService> {
+    protected serviceFactory(): StatusService {
+        return new StatusService();
     }
-
-    protected get lastItem() {
-        return this._lastItem;
-    }
-
-    protected set lastItem(value: Status | null) {
-        this._lastItem = value;
-    }
-
-    protected set hasMoreItems(value: boolean){
-        this._hasMoreItems = value;
-    }
-
-    public get hasMoreItems() {
-        return this._hasMoreItems;
-    }
-
-    reset() {
-        this.lastItem = null;
-        this.hasMoreItems = true;
-        throw new Error("Method not implemented.");
-    }
-
-    public async getUser (
-        authToken: AuthToken,
-        alias: string
-    ): Promise<User | null> {
-        return this.userService.getUser(authToken, alias);
-    };
-
-    public abstract loadMoreItems(authToken: AuthToken, userAlias: string) : void
 }
