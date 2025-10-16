@@ -45,7 +45,6 @@ export abstract class PageItemPresenter<T, U extends Service> extends Presenter<
     reset() {
         this.lastItem = null;
         this.hasMoreItems = true;
-        throw new Error("Method not implemented.");
     }
 
     public async getUser (

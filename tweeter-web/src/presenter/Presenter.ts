@@ -3,8 +3,14 @@ export interface View {
 }
 
 export interface MessageView extends View {
-    displayInfoMessage: (message: string, duration: number) => string,
-    deleteMessage: (messageId: string) => void
+    displayInfoMessage: (message: string, duration: number) => string;
+    deleteMessage: (messageId: string) => void;
+}
+
+export interface AuthenticationView extends View {
+    setIsLoading: any;
+    navigate: any;
+    updateUserInfo: any;
 }
 
 export abstract class Presenter<V extends View> {

@@ -6,7 +6,7 @@ export const PAGE_SIZE = 10;
 
 export interface LogoutView extends MessageView {
     clearUserInfo: any,
-    navigate: any,
+    navigate: any
 }
 export class LogoutPresenter extends Presenter<LogoutView> {
     private service: UserService;

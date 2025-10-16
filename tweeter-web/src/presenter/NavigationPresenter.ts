@@ -5,7 +5,6 @@ import { Presenter, View } from "./Presenter";
 export const PAGE_SIZE = 10;
 
 export interface NavigationView extends View {
-  displayErrorMessage: (message: string) => void,
   navigate: any,
   setDisplayedUser: any
 }

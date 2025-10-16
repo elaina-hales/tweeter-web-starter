@@ -1,26 +1,19 @@
-import { User, AuthToken } from "tweeter-shared";
-import { AuthenticationPresenter, AuthenticationView } from "./AuthenticationPresenter";
+import { AuthenticationPresenter } from "./AuthenticationPresenter";
 import { UserService } from "../model.service/UserService";
 import { Buffer } from "buffer";
-import { Presenter, View } from "./Presenter";
+import { AuthenticationView } from "./Presenter";
 
-export const PAGE_SIZE = 10;
-
-export interface RegisterView extends View {
-  setImageUrl: any,
+export interface RegisterView extends AuthenticationView {
+  setImageUrl: (url: string) => void,
   setImageBytes: any,
-  setImageFileExtension: any,
-  setIsLoading: any,
-  navigate: any,
-  updateUserInfo: any
+  setImageFileExtension: (fileExtension: string) => void
 }
 
-export class RegisterPresenter extends Presenter<RegisterView> {
-  private service: UserService;
+export class RegisterPresenter extends AuthenticationPresenter<RegisterView> {
+  private service = new UserService();
 
   public constructor(view: RegisterView) {
     super(view);
-    this.service = new UserService();
   }
 
   public async doRegister(
@@ -33,19 +26,7 @@ export class RegisterPresenter extends Presenter<RegisterView> {
     rememberMe: boolean
   ) {
     await this.doFailureReortingOperation(async () => {
-      this.view.setIsLoading(true);
-
-      const [user, authToken] = await this.service.register(
-        firstName,
-        lastName,
-        alias,
-        password,
-        imageBytes,
-        imageFileExtension,
-      );
-
-      this.view.updateUserInfo(user, user, authToken, rememberMe);
-      this.view.navigate(`/feed/${user.alias}`);
+      await this.authenticate(this.service.register(alias, password, firstName, lastName, imageBytes, imageFileExtension), rememberMe, undefined);
     }, "register user");
     this.view.setIsLoading(false);
   };

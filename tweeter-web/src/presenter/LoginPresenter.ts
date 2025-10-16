@@ -1,35 +1,20 @@
 import { UserService } from "../model.service/UserService";
-import { Presenter, View } from "./Presenter";
+import { AuthenticationPresenter } from "./AuthenticationPresenter";
+import { AuthenticationView } from "./Presenter";
 
 export const PAGE_SIZE = 10;
 
-export interface LoginView extends View {
-    setIsLoading: any,
-    navigate: any,
-    updateUserInfo: any
-}
-
-export class LoginPresenter extends Presenter<LoginView> {
+export class LoginPresenter extends AuthenticationPresenter<AuthenticationView> {
     private service: UserService;
 
-    public constructor(view: LoginView) {
+    public constructor(view: AuthenticationView) {
         super(view);
         this.service = new UserService();
     }
 
     public async doLogin(alias: string, password: string, rememberMe: boolean, originalUrl: string | undefined) {
         await this.doFailureReortingOperation(async() => {
-            this.view.setIsLoading(true);
-
-            const [user, authToken] = await this.service.login(alias, password);
-
-            this.view.updateUserInfo(user, user, authToken, rememberMe);
-
-            if (!!originalUrl) {
-                this.view.navigate(originalUrl);
-            } else {
-                this.view.navigate(`/feed/${user.alias}`);
-            }
+            await this.authenticate(this.service.login(alias, password), rememberMe, originalUrl);
         }, "log user in");
         this.view.setIsLoading(false);
     }

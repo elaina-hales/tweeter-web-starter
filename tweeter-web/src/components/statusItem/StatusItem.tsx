@@ -4,8 +4,6 @@ import { Status, User } from "tweeter-shared";
 import { useUserNavigation } from "../userInfo/UserNavigationHook";
 
 interface Props {
-    user: User
-    formattedDate: string,
     status: Status
     featureURL: string
 }
@@ -19,7 +17,7 @@ const StatusItem = (props: Props) => {
                 <div className="row mx-0 px-0">
                     <div className="col-auto p-3">
                         <img
-                            src={props.user.imageUrl}
+                            src={props.status.user.imageUrl}
                             className="img-fluid"
                             width="80"
                             alt="Posting user"
@@ -28,17 +26,17 @@ const StatusItem = (props: Props) => {
                     <div className="col">
                     <h2>
                         <b>
-                        {props.user.firstName} {props.user.lastName}
+                        {props.status.user.firstName} {props.status.user.lastName}
                         </b>{" "}
                         -{" "}
                         <Link
-                            to={`${props.featureURL}/${props.user.alias}`}
+                            to={`${props.featureURL}/${props.status.user.alias}`}
                             onClick={(event) => navigateToUser(event, props.featureURL)}
                         >
-                            {props.user.alias}
+                            {props.status.user.alias}
                         </Link>
                     </h2>
-                    {props.formattedDate}
+                    {props.status.formattedDate}
                     <br />
                     <Post status={props.status} featurePath={props.featureURL} />
                     </div>
