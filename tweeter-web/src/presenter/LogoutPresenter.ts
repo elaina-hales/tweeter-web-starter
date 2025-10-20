@@ -9,16 +9,20 @@ export interface LogoutView extends MessageView {
     navigate: any
 }
 export class LogoutPresenter extends Presenter<LogoutView> {
-    private service: UserService;
+    private _service: UserService;
 
     public constructor(view: LogoutView) {
         super(view);
-        this.service = new UserService();
+        this._service = new UserService();
+    }
+
+    public get service() {
+        return this._service;
     }
 
     public async logout(authToken: AuthToken): Promise<void> {
-        const loggingOutToastId = this.view.displayInfoMessage("Logging Out...", 0);
         await this.doFailureReortingOperation(async() => {
+            const loggingOutToastId = this.view.displayInfoMessage("Logging Out...", 0);
             await this.service.logout(authToken!);
             this.view.deleteMessage(loggingOutToastId!);
             this.view.clearUserInfo();
