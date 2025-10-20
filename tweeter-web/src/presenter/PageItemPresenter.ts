@@ -56,14 +56,14 @@ export abstract class PageItemPresenter<T, U extends Service> extends Presenter<
     
     public async loadMoreItems(authToken: AuthToken, userAlias: string) {
         await this.doFailureReortingOperation(async() => {
-        const [newItems, hasMore] = await this.getMoreItems(
-            authToken,
-            userAlias
-        );
-    
-        this.hasMoreItems = hasMore;
-        this.lastItem = newItems.length > 0 ? newItems[newItems.length - 1] : null;
-        this.view.addItems(newItems);
+            const [newItems, hasMore] = await this.getMoreItems(
+                authToken,
+                userAlias
+            );
+        
+            this.hasMoreItems = hasMore;
+            this.lastItem = newItems.length > 0 ? newItems[newItems.length - 1] : null;
+            this.view.addItems(newItems);
         }, this.itemDescription());
     };
 

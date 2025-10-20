@@ -60,7 +60,7 @@ export class UserInfoPresenter extends Presenter<UserInfoView> {
       userToFollow,
       "follow",
       "Following",
-      false,
+      true,
       () => this.service.follow(authToken, userToFollow)
     );
   };
@@ -73,7 +73,7 @@ export class UserInfoPresenter extends Presenter<UserInfoView> {
       userToUnfollow,
       "unfollow",
       "Unfollowing",
-      true,
+      false,
       () => this.service.unfollow(authToken, userToUnfollow)
     );
   };
