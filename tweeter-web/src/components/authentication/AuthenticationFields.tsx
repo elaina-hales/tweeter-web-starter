@@ -9,6 +9,7 @@ const AuthenticationFields = (props: Props) => {
         <>
         <div className="form-floating">
           <input
+            aria-label="alias"
             type="text"
             className="form-control"
             size={50}
@@ -21,6 +22,7 @@ const AuthenticationFields = (props: Props) => {
         </div>
         <div className="form-floating mb-3">
           <input
+            aria-label="password"
             type="password"
             className="form-control bottom"
             id="passwordInput"

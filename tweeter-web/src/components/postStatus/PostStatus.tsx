@@ -47,6 +47,7 @@ const PostStatus = (props: Props) => {
     <form>
       <div className="form-group mb-3">
         <textarea
+          aria-label="postStatusTextArea"
           className="form-control"
           id="postStatusTextArea"
           rows={10}
@@ -59,6 +60,7 @@ const PostStatus = (props: Props) => {
       </div>
       <div className="form-group">
         <button
+          aria-label="postStatusButton"
           id="postStatusButton"
           className="btn btn-md btn-primary me-1"
           type="button"
@@ -77,6 +79,7 @@ const PostStatus = (props: Props) => {
           )}
         </button>
         <button
+          aria-label="clearStatusButton"
           id="clearStatusButton"
           className="btn btn-md btn-secondary"
           type="button"
