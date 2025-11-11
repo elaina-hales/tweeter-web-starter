@@ -26,7 +26,11 @@ export class FollowService implements Service {
       lastItem: User | null
     ): Promise<[User[], boolean]> {
       // TODO: Replace with the result of calling server
-      return FakeData.instance.getPageOfUsers(lastItem, pageSize, userAlias);
+      if (lastItem === null) {
+        return this.serverFacade.getMoreFollowers({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: null});
+      } else {
+        return this.serverFacade.getMoreFollowers({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: lastItem.dto});
+      }
     };
 
 }

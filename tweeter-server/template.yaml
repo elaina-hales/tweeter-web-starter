@@ -214,6 +214,20 @@ Resources:
             Path: /user/create  ##### TODO: Set Path
             Method: POST
 
+  getFollowers:  ##### TODO: Set function name
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getFollowers  ##### TODO: Set function name
+      Handler: lambda/follow/GetFollowersLambda.handler  ##### TODO: Set Handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /user/create  ##### TODO: Set Path
+            Method: POST
+
   #
   # TODO: ADD MORE WEB API LAMBDA DEFINITIONS HERE
   #
