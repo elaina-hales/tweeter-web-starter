@@ -2,7 +2,6 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: SAM config for Tweeter server
 
-
 #
 # Global Lambda function properties. These apply to every Lambda function.
 #
@@ -192,6 +191,20 @@ Resources:
     Properties:
       FunctionName: userCreateFunction  ##### TODO: Set function name
       Handler: handlers/users/UserCreateHandler.userCreateHandler  ##### TODO: Set Handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /user/create  ##### TODO: Set Path
+            Method: POST
+
+  getFollowees:  ##### TODO: Set function name
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getFollowees  ##### TODO: Set function name
+      Handler: lambda/follow/GetFolloweesLambda.handler  ##### TODO: Set Handler
       Policies: *commonPolicies
       Events:
         PostApi:
