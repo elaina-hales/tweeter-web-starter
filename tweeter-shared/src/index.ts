@@ -23,6 +23,11 @@ export type { GetUserRequest } from "./model/net/request/GetUserRequest";
 export type { LoginRequest } from "./model/net/request/LoginRequest";
 export type { RegisterRequest } from "./model/net/request/RegisterRequest";
 export type { GetIsFollowerRequest } from "./model/net/request/GetIsFollowerRequest";
+export type { FollowRequest } from "./model/net/request/FollowRequest";
+export type { GetFolloweeCountRequest } from "./model/net/request/GetFolloweeCountRequest";
+export type { GetFollowerCountRequest } from "./model/net/request/GetFollowerCountRequest";
+export type { UnfollowRequest } from "./model/net/request/UnfollowRequest";
+export type { LogoutRequest } from "./model/net/request/LogoutRequest";
 
 // Responses
 export type { TweeterResponse } from "./model/net/response/TweeterResponse";
@@ -33,6 +38,11 @@ export type { GetUserResponse } from "./model/net/response/GetUserResponse";
 export type { LoginResponse } from "./model/net/response/LoginResponse";
 export type { RegisterResponse } from "./model/net/response/RegisterResponse";
 export type { GetIsFollowerResponse } from "./model/net/response/GetIsFollowerResponse";
+export type { FollowResponse } from "./model/net/response/FollowResponse";
+export type { GetFolloweeCountResponse } from "./model/net/response/GetFolloweeCountResponse";
+export type { GetFollowerCountResponse } from "./model/net/response/GetFollowerCountResponse";
+export type { UnfollowResponse } from "./model/net/response/UnfollowResponse";
+export type { LogoutResponse } from "./model/net/response/LogoutResponse";
 
 // Other
 export { FakeData } from "./util/FakeData";

@@ -325,6 +325,76 @@ Resources:
             RestApiId: !Ref tweeterApi
             Path: /user/getIsFollower  ##### TODO: Set Path
             Method: POST
+
+  getFolloweeCount:  ##### TODO: Set function name
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getFolloweeCount  ##### TODO: Set function name
+      Handler: lambda/user/GetFolloweeCountLambda.handler  ##### TODO: Set Handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /user/getFolloweeCount  ##### TODO: Set Path
+            Method: POST
+  
+  getFollowerCount:  ##### TODO: Set function name
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getFollowerCount  ##### TODO: Set function name
+      Handler: lambda/user/GetFollowerCountLambda.handler  ##### TODO: Set Handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /user/getFollowerCount  ##### TODO: Set Path
+            Method: POST
+  
+  logout:  ##### TODO: Set function name
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: logout  ##### TODO: Set function name
+      Handler: lambda/user/LogoutLambda.handler  ##### TODO: Set Handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /user/logout  ##### TODO: Set Path
+            Method: POST
+
+  follow:  ##### TODO: Set function name
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: follow  ##### TODO: Set function name
+      Handler: lambda/user/FollowLambda.handler  ##### TODO: Set Handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /user/follow  ##### TODO: Set Path
+            Method: POST
+  
+  unfollow:  ##### TODO: Set function name
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: unfollow  ##### TODO: Set function name
+      Handler: lambda/user/UnfollowLambda.handler  ##### TODO: Set Handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /user/unfollow  ##### TODO: Set Path
+            Method: POST
   #
   # TODO: ADD MORE WEB API LAMBDA DEFINITIONS HERE
   #

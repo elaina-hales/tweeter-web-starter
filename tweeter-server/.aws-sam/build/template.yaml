@@ -470,6 +470,121 @@ Resources:
       CodeUri: getIsFollower
     Metadata:
       SamResourceId: getIsFollower
+  getFolloweeCount:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getFolloweeCount
+      Handler: lambda/user/GetFolloweeCountLambda.handler
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - AmazonSESFullAccess
+      - CloudWatchFullAccess
+      - AmazonDynamoDBFullAccess
+      - AmazonS3FullAccess
+      - AmazonSQSFullAccess
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: tweeterApi
+            Path: /user/getFolloweeCount
+            Method: POST
+      CodeUri: getFolloweeCount
+    Metadata:
+      SamResourceId: getFolloweeCount
+  getFollowerCount:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getFollowerCount
+      Handler: lambda/user/GetFollowerCountLambda.handler
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - AmazonSESFullAccess
+      - CloudWatchFullAccess
+      - AmazonDynamoDBFullAccess
+      - AmazonS3FullAccess
+      - AmazonSQSFullAccess
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: tweeterApi
+            Path: /user/getFollowerCount
+            Method: POST
+      CodeUri: getFollowerCount
+    Metadata:
+      SamResourceId: getFollowerCount
+  logout:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: logout
+      Handler: lambda/user/LogoutLambda.handler
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - AmazonSESFullAccess
+      - CloudWatchFullAccess
+      - AmazonDynamoDBFullAccess
+      - AmazonS3FullAccess
+      - AmazonSQSFullAccess
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: tweeterApi
+            Path: /user/logout
+            Method: POST
+      CodeUri: logout
+    Metadata:
+      SamResourceId: logout
+  follow:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: follow
+      Handler: lambda/user/FollowLambda.handler
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - AmazonSESFullAccess
+      - CloudWatchFullAccess
+      - AmazonDynamoDBFullAccess
+      - AmazonS3FullAccess
+      - AmazonSQSFullAccess
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: tweeterApi
+            Path: /user/follow
+            Method: POST
+      CodeUri: follow
+    Metadata:
+      SamResourceId: follow
+  unfollow:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: unfollow
+      Handler: lambda/user/UnfollowLambda.handler
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - AmazonSESFullAccess
+      - CloudWatchFullAccess
+      - AmazonDynamoDBFullAccess
+      - AmazonS3FullAccess
+      - AmazonSQSFullAccess
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: tweeterApi
+            Path: /user/unfollow
+            Method: POST
+      CodeUri: unfollow
+    Metadata:
+      SamResourceId: unfollow
   visitTable:
     Type: AWS::DynamoDB::Table
     Properties:
