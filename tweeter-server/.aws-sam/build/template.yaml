@@ -378,6 +378,52 @@ Resources:
       CodeUri: postStatus
     Metadata:
       SamResourceId: postStatus
+  getUser:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getUser
+      Handler: lambda/user/GetUserLambda.handler
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - AmazonSESFullAccess
+      - CloudWatchFullAccess
+      - AmazonDynamoDBFullAccess
+      - AmazonS3FullAccess
+      - AmazonSQSFullAccess
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: tweeterApi
+            Path: /user/get
+            Method: POST
+      CodeUri: getUser
+    Metadata:
+      SamResourceId: getUser
+  login:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: login
+      Handler: lambda/user/LoginLambda.handler
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - AmazonSESFullAccess
+      - CloudWatchFullAccess
+      - AmazonDynamoDBFullAccess
+      - AmazonS3FullAccess
+      - AmazonSQSFullAccess
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: tweeterApi
+            Path: /user/login
+            Method: POST
+      CodeUri: login
+    Metadata:
+      SamResourceId: login
   visitTable:
     Type: AWS::DynamoDB::Table
     Properties:

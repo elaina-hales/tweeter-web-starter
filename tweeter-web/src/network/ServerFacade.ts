@@ -1,4 +1,9 @@
 import {
+  AuthToken,
+  GetUserRequest,
+  GetUserResponse,
+  LoginRequest,
+  LoginResponse,
   PagedStatusItemRequest,
   PagedStatusItemResponse,
   PagedUserItemRequest,
@@ -10,6 +15,7 @@ import {
   UserDto,
 } from "tweeter-shared";
 import { ClientCommunicator } from "./ClientCommunicator";
+import { LoginPresenter } from "../presenter/LoginPresenter";
 
 export class ServerFacade {
   private SERVER_URL = "https://d1079cnpzj.execute-api.us-east-1.amazonaws.com/dev";
@@ -132,6 +138,50 @@ export class ServerFacade {
 
     // Handle errors
     if (!response.success) {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async getUser(
+    request: GetUserRequest
+  ): Promise<User | null> {
+    const response = await this.clientCommunicator.doPost<
+      GetUserRequest,
+      GetUserResponse
+    >(request, "/user/get");
+    
+    // Handle errors
+    if (response.success) {
+      if (response.user == null) {
+        throw new Error(`No user found`);
+      } else {
+        return User.fromDto(response.user);
+      }
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async login(
+    request: LoginRequest
+  ): Promise<[User, AuthToken]> {
+    const response = await this.clientCommunicator.doPost<
+      LoginRequest,
+      LoginResponse
+    >(request, "/user/login");
+    
+    // Handle errors
+    if (response.success) {
+      if (response.user == null ) {
+        throw new Error(`Invalid alias or password`);
+      } else if (response.token == null) {
+        throw new Error(`No authToken provided`);
+      } else {
+        return [User.fromDto(response.user)!, AuthToken.fromDto(response.token)!];
+      }
+    } else {
       console.error(response);
       throw new Error(response.message ?? undefined);
     }
