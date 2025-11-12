@@ -15,10 +15,12 @@ export type { UserDto } from "./model/dto/UserDto";
 // Requests
 export type { TweeterRequest } from "./model/net/request/TweeterRequest";
 export type { PagedUserItemRequest } from "./model/net/request/PagedUserItemRequest";
+export type { PagedStatusItemRequest } from "./model/net/request/PagedStatusItemRequest";
 
 // Responses
 export type { TweeterResponse } from "./model/net/response/TweeterResponse";
 export type { PagedUserItemResponse } from "./model/net/response/PagedUserItemResponse";
+export type { PagedStatusItemResponse } from "./model/net/response/PagedStatusItemResponse";
 
 // Other
 export { FakeData } from "./util/FakeData";

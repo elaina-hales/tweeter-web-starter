@@ -1,7 +1,10 @@
 import { AuthToken, Status, FakeData } from "tweeter-shared";
 import { Service } from "./Service";
+import { ServerFacade } from "../network/ServerFacade";
 
 export class StatusService implements Service {
+    private serverFacade = new ServerFacade;
+    
     public async loadMoreFeedItems (
           authToken: AuthToken,
           userAlias: string,
@@ -9,7 +12,11 @@ export class StatusService implements Service {
           lastItem: Status | null
         ): Promise<[Status[], boolean]> {
           // TODO: Replace with the result of calling server
-          return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
+        if (lastItem === null) {
+            return this.serverFacade.getMoreFeedItems({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: null});
+        } else {
+            return this.serverFacade.getMoreFeedItems({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: lastItem.dto});
+        }
     };
     
     public async loadMoreStoryItems (

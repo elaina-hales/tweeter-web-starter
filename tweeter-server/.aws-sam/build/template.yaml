@@ -309,6 +309,29 @@ Resources:
       CodeUri: getFollowers
     Metadata:
       SamResourceId: getFollowers
+  getFeed:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getFeed
+      Handler: lambda/status/GetFeedLambda.handler
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - AmazonSESFullAccess
+      - CloudWatchFullAccess
+      - AmazonDynamoDBFullAccess
+      - AmazonS3FullAccess
+      - AmazonSQSFullAccess
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: tweeterApi
+            Path: /user/create
+            Method: POST
+      CodeUri: getFeed
+    Metadata:
+      SamResourceId: getFeed
   visitTable:
     Type: AWS::DynamoDB::Table
     Properties:

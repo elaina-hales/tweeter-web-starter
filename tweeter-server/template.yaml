@@ -228,6 +228,20 @@ Resources:
             Path: /user/create  ##### TODO: Set Path
             Method: POST
 
+  getFeed:  ##### TODO: Set function name
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getFeed  ##### TODO: Set function name
+      Handler: lambda/status/GetFeedLambda.handler  ##### TODO: Set Handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /user/create  ##### TODO: Set Path
+            Method: POST
+
   #
   # TODO: ADD MORE WEB API LAMBDA DEFINITIONS HERE
   #
