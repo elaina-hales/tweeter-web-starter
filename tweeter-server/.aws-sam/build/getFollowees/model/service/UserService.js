@@ -33,7 +33,7 @@ class UserService {
         return [user, tweeter_shared_1.FakeData.instance.authToken];
     }
     ;
-    async getIsFollowerStatus(authToken, user, selectedUser) {
+    async getIsFollowerStatus(token, user, selectedUser) {
         // TODO: Replace with the result of calling server
         return tweeter_shared_1.FakeData.instance.isFollower();
     }

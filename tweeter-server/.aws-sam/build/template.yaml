@@ -447,6 +447,29 @@ Resources:
       CodeUri: register
     Metadata:
       SamResourceId: register
+  getIsFollower:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getIsFollower
+      Handler: lambda/user/GetIsFollowerLambda.handler
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - AmazonSESFullAccess
+      - CloudWatchFullAccess
+      - AmazonDynamoDBFullAccess
+      - AmazonS3FullAccess
+      - AmazonSQSFullAccess
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: tweeterApi
+            Path: /user/getIsFollower
+            Method: POST
+      CodeUri: getIsFollower
+    Metadata:
+      SamResourceId: getIsFollower
   visitTable:
     Type: AWS::DynamoDB::Table
     Properties:

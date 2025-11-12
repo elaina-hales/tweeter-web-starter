@@ -38,7 +38,7 @@ export class UserService implements Service {
     selectedUser: User
   ): Promise<boolean> {
     // TODO: Replace with the result of calling server
-    return FakeData.instance.isFollower();
+    return this.serverFacade.getIsFollower({token: authToken.token, user: user.dto, selectedUser: selectedUser.dto});
   };
 
   public async getFolloweeCount (
@@ -59,7 +59,7 @@ export class UserService implements Service {
 
   public async logout(authToken: AuthToken): Promise<void> {
     // Pause so we can see the logging out message. Delete when the call to the server is implemented.
-        await new Promise((res) => setTimeout(res, 1000));
+    await new Promise((res) => setTimeout(res, 1000));
   };
 
   public async unfollow (

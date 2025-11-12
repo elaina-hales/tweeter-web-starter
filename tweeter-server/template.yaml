@@ -312,6 +312,19 @@ Resources:
             Path: /user/register  ##### TODO: Set Path
             Method: POST
 
+  getIsFollower:  ##### TODO: Set function name
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getIsFollower  ##### TODO: Set function name
+      Handler: lambda/user/GetIsFollowerLambda.handler  ##### TODO: Set Handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /user/getIsFollower  ##### TODO: Set Path
+            Method: POST
   #
   # TODO: ADD MORE WEB API LAMBDA DEFINITIONS HERE
   #
