@@ -5,32 +5,32 @@ import { ServerFacade } from "../network/ServerFacade";
 export class FollowService implements Service {
   private serverFacade = new ServerFacade;
 
-    public async loadMoreFollowees (
-      authToken: AuthToken,
-      userAlias: string,
-      pageSize: number,
-      lastItem: User | null
-    ): Promise<[User[], boolean]> {
-      // TODO: Replace with the result of calling server
-      if (lastItem === null) {
-        return this.serverFacade.getMoreFollowees({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: null});
-      } else {
-        return this.serverFacade.getMoreFollowees({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: lastItem.dto});
-      }
-    };
-    
-    public async loadMoreFollowers (
-      authToken: AuthToken,
-      userAlias: string,
-      pageSize: number,
-      lastItem: User | null
-    ): Promise<[User[], boolean]> {
-      // TODO: Replace with the result of calling server
-      if (lastItem === null) {
-        return this.serverFacade.getMoreFollowers({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: null});
-      } else {
-        return this.serverFacade.getMoreFollowers({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: lastItem.dto});
-      }
-    };
+  public async loadMoreFollowees (
+    authToken: AuthToken,
+    userAlias: string,
+    pageSize: number,
+    lastItem: User | null
+  ): Promise<[User[], boolean]> {
+    // TODO: Replace with the result of calling server
+    if (lastItem === null) {
+      return this.serverFacade.getMoreFollowees({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: null});
+    } else {
+      return this.serverFacade.getMoreFollowees({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: lastItem.dto});
+    }
+  };
+  
+  public async loadMoreFollowers (
+    authToken: AuthToken,
+    userAlias: string,
+    pageSize: number,
+    lastItem: User | null
+  ): Promise<[User[], boolean]> {
+    // TODO: Replace with the result of calling server
+    if (lastItem === null) {
+      return this.serverFacade.getMoreFollowers({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: null});
+    } else {
+      return this.serverFacade.getMoreFollowers({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: lastItem.dto});
+    }
+  };
 
 }

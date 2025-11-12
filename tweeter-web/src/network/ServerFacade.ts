@@ -1,11 +1,19 @@
 import {
   AuthToken,
+  FollowRequest,
+  FollowResponse,
+  GetFolloweeCountRequest,
+  GetFolloweeCountResponse,
+  GetFollowerCountRequest,
+  GetFollowerCountResponse,
   GetIsFollowerRequest,
   GetIsFollowerResponse,
   GetUserRequest,
   GetUserResponse,
   LoginRequest,
   LoginResponse,
+  LogoutRequest,
+  LogoutResponse,
   PagedStatusItemRequest,
   PagedStatusItemResponse,
   PagedUserItemRequest,
@@ -15,6 +23,8 @@ import {
   RegisterRequest,
   RegisterResponse,
   Status,
+  UnfollowRequest,
+  UnfollowResponse,
   User,
   UserDto,
 } from "tweeter-shared";
@@ -225,6 +235,89 @@ export class ServerFacade {
     // Handle errors
     if (response.success) {
         return response.isFollower;
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async getFolloweeCount(
+    request: GetFolloweeCountRequest
+  ): Promise<number> {
+    const response = await this.clientCommunicator.doPost<
+      GetFolloweeCountRequest,
+      GetFolloweeCountResponse
+    >(request, "/user/getFolloweeCount");
+    console.log(request);
+    // Handle errors
+    if (response.success) {
+      return response.numFollowees;
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async getFollowerCount(
+    request: GetFollowerCountRequest
+  ): Promise<number> {
+    const response = await this.clientCommunicator.doPost<
+      GetFollowerCountRequest,
+      GetFollowerCountResponse
+    >(request, "/user/getFollowerCount");
+    
+    // Handle errors
+    if (response.success) {
+      return response.numFollowers;
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async logout(
+    request: LogoutRequest
+  ): Promise<void> {
+    const response = await this.clientCommunicator.doPost<
+      LogoutRequest,
+      LogoutResponse
+    >(request, "/user/logout");
+
+    // Handle errors
+    if (!response.success) {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async unfollow(
+    request: UnfollowRequest
+  ): Promise<[number, number]> {
+    const response = await this.clientCommunicator.doPost<
+      UnfollowRequest,
+      UnfollowResponse
+    >(request, "/user/unfollow");
+    
+    // Handle errors
+    if (response.success) {
+      return [response.followerCount, response.followeeCount];
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async follow(
+    request: FollowRequest
+  ): Promise<[number, number]> {
+    const response = await this.clientCommunicator.doPost<
+      FollowRequest,
+      FollowResponse
+    >(request, "/user/follow");
+    
+    // Handle errors
+    if (response.success) {
+      return [response.followerCount, response.followeeCount];
     } else {
       console.error(response);
       throw new Error(response.message ?? undefined);

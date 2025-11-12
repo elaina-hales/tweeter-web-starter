@@ -46,7 +46,7 @@ export class UserService implements Service {
     user: User
   ): Promise<number> {
     // TODO: Replace with the result of calling server
-    return FakeData.instance.getFolloweeCount(user.alias);
+    return this.serverFacade.getFolloweeCount({user: user.dto, token: authToken.token});
   };
 
   public async getFollowerCount (
@@ -54,12 +54,12 @@ export class UserService implements Service {
     user: User
   ): Promise<number> {
     // TODO: Replace with the result of calling server
-    return FakeData.instance.getFollowerCount(user.alias);
+    return this.serverFacade.getFollowerCount({user: user.dto, token: authToken.token});
   };
 
   public async logout(authToken: AuthToken): Promise<void> {
     // Pause so we can see the logging out message. Delete when the call to the server is implemented.
-    await new Promise((res) => setTimeout(res, 1000));
+    return this.serverFacade.logout({token: authToken.token});
   };
 
   public async unfollow (
@@ -67,14 +67,7 @@ export class UserService implements Service {
     userToUnfollow: User
   ) : Promise<[followerCount: number, followeeCount: number]> {
     // Pause so we can see the follow message. Remove when connected to the server
-    await new Promise((f) => setTimeout(f, 2000));
-
-    // TODO: Call the server
-
-    const followerCount = await this.getFollowerCount(authToken, userToUnfollow);
-    const followeeCount = await this.getFolloweeCount(authToken, userToUnfollow);
-
-    return [followerCount, followeeCount];
+    return this.serverFacade.unfollow({token: authToken.token, userToUnfollow: userToUnfollow.dto})
   };
 
   public async follow (
@@ -82,13 +75,6 @@ export class UserService implements Service {
     userToFollow: User
   ): Promise<[followerCount: number, followeeCount: number]> {
     // Pause so we can see the follow message. Remove when connected to the server
-    await new Promise((f) => setTimeout(f, 2000));
-
-    // TODO: Call the server
-
-    const followerCount = await this.getFollowerCount(authToken, userToFollow);
-    const followeeCount = await this.getFolloweeCount(authToken, userToFollow);
-
-    return [followerCount, followeeCount];
+    return this.serverFacade.follow({token: authToken.token, userToFollow: userToFollow.dto})
   };
 }
