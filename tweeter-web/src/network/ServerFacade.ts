@@ -10,6 +10,8 @@ import {
   PagedUserItemResponse,
   PostStatusRequest,
   PostStatusResponse,
+  RegisterRequest,
+  RegisterResponse,
   Status,
   User,
   UserDto,
@@ -171,6 +173,29 @@ export class ServerFacade {
       LoginRequest,
       LoginResponse
     >(request, "/user/login");
+    
+    // Handle errors
+    if (response.success) {
+      if (response.user == null ) {
+        throw new Error(`Invalid alias or password`);
+      } else if (response.token == null) {
+        throw new Error(`No authToken provided`);
+      } else {
+        return [User.fromDto(response.user)!, AuthToken.fromDto(response.token)!];
+      }
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async register(
+    request: RegisterRequest
+  ): Promise<[User, AuthToken]> {
+    const response = await this.clientCommunicator.doPost<
+      RegisterRequest,
+      RegisterResponse
+    >(request, "/user/register");
     
     // Handle errors
     if (response.success) {

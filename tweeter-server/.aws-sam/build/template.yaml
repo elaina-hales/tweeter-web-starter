@@ -424,6 +424,29 @@ Resources:
       CodeUri: login
     Metadata:
       SamResourceId: login
+  register:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: register
+      Handler: lambda/user/RegisterLambda.handler
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - AmazonSESFullAccess
+      - CloudWatchFullAccess
+      - AmazonDynamoDBFullAccess
+      - AmazonS3FullAccess
+      - AmazonSQSFullAccess
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: tweeterApi
+            Path: /user/register
+            Method: POST
+      CodeUri: register
+    Metadata:
+      SamResourceId: register
   visitTable:
     Type: AWS::DynamoDB::Table
     Properties:

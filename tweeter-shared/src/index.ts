@@ -21,6 +21,7 @@ export type { PagedStatusItemRequest } from "./model/net/request/PagedStatusItem
 export type { PostStatusRequest} from "./model/net/request/PostStatusRequest";
 export type { GetUserRequest } from "./model/net/request/GetUserRequest";
 export type { LoginRequest } from "./model/net/request/LoginRequest";
+export type { RegisterRequest } from "./model/net/request/RegisterRequest"
 
 // Responses
 export type { TweeterResponse } from "./model/net/response/TweeterResponse";
@@ -29,6 +30,7 @@ export type { PagedStatusItemResponse } from "./model/net/response/PagedStatusIt
 export type { PostStatusResponse } from "./model/net/response/PostStatusResponse";
 export type { GetUserResponse } from "./model/net/response/GetUserResponse";
 export type { LoginResponse } from "./model/net/response/LoginResponse";
+export type { RegisterResponse } from "./model/net/response/RegisterResponse";
 
 // Other
 export { FakeData } from "./util/FakeData";

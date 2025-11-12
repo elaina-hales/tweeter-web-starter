@@ -298,6 +298,20 @@ Resources:
             Path: /user/login  ##### TODO: Set Path
             Method: POST
 
+  register:  ##### TODO: Set function name
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: register  ##### TODO: Set function name
+      Handler: lambda/user/RegisterLambda.handler  ##### TODO: Set Handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /user/register  ##### TODO: Set Path
+            Method: POST
+
   #
   # TODO: ADD MORE WEB API LAMBDA DEFINITIONS HERE
   #
