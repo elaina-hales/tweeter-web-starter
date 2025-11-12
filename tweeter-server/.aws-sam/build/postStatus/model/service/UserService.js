@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
-const buffer_1 = require("buffer");
 const tweeter_shared_1 = require("tweeter-shared");
 class UserService {
     async getUser(token, alias) {
@@ -23,8 +22,6 @@ class UserService {
     }
     ;
     async register(alias, password, firstName, lastName, userImageBytes, imageFileExtension) {
-        // Not neded now, but will be needed when you make the request to the server in milestone 3
-        const imageStringBase64 = buffer_1.Buffer.from(userImageBytes).toString("base64");
         // TODO: Replace with the result of calling the server
         const user = tweeter_shared_1.FakeData.instance.firstUser;
         if (user === null) {

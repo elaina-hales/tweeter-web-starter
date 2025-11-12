@@ -248,7 +248,7 @@ export class ServerFacade {
       GetFolloweeCountRequest,
       GetFolloweeCountResponse
     >(request, "/user/getFolloweeCount");
-    console.log(request);
+
     // Handle errors
     if (response.success) {
       return response.numFollowees;

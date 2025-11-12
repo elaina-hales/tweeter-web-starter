@@ -29,8 +29,10 @@ export class UserService implements Service {
     userImageBytes: Uint8Array,
     imageFileExtension: string
   ): Promise<[User, AuthToken]> {
-    return this.serverFacade.register({alias: alias, password: password, firstName: firstName, lastName: lastName, userImageBytes: userImageBytes, imageFileExtension: imageFileExtension});
-  };
+    const imageStringBase64: string =
+      Buffer.from(userImageBytes).toString("base64");
+    return this.serverFacade.register({alias: alias, password: password, firstName: firstName, lastName: lastName, userImageBytes: imageStringBase64, imageFileExtension: imageFileExtension});
+  }
 
   public async getIsFollowerStatus (
     authToken: AuthToken,
