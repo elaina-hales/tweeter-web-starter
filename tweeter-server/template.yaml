@@ -211,7 +211,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref tweeterApi
-            Path: /user/create  ##### TODO: Set Path
+            Path: /followee/list  ##### TODO: Set Path
             Method: POST
 
   getFollowers:  ##### TODO: Set function name
@@ -225,7 +225,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref tweeterApi
-            Path: /user/create  ##### TODO: Set Path
+            Path: /follower/list  ##### TODO: Set Path
             Method: POST
 
   getFeed:  ##### TODO: Set function name
@@ -233,6 +233,34 @@ Resources:
     Properties:
       FunctionName: getFeed  ##### TODO: Set function name
       Handler: lambda/status/GetFeedLambda.handler  ##### TODO: Set Handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /feed/list  ##### TODO: Set Path
+            Method: POST
+  
+  getStory:  ##### TODO: Set function name
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getStory  ##### TODO: Set function name
+      Handler: lambda/status/GetStoryLambda.handler  ##### TODO: Set Handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /story/list  ##### TODO: Set Path
+            Method: POST
+
+  userCreateFunction:  ##### TODO: Set function name
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: userCreateFunction  ##### TODO: Set function name
+      Handler: handlers/users/UserCreateHandler.userCreateHandler  ##### TODO: Set Handler
       Policies: *commonPolicies
       Events:
         PostApi:

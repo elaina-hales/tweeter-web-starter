@@ -8,12 +8,12 @@ class StatusService {
         return this.getFakeData(lastItem, pageSize);
     }
     ;
-    async loadMoreStoryItems(authToken, userAlias, pageSize, lastItem) {
+    async loadMoreStoryItems(token, userAlias, pageSize, lastItem) {
         // TODO: Replace with the result of calling server
         return this.getFakeData(lastItem, pageSize);
     }
     ;
-    async postStatus(authToken, newStatus) {
+    async postStatus(token, newStatus) {
         // Pause so we can see the logging out message. Remove when connected to the server
         await new Promise((f) => setTimeout(f, 2000));
         // TODO: Call the server to post the status

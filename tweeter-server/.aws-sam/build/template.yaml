@@ -281,7 +281,7 @@ Resources:
           Properties:
             RestApiId:
               Ref: tweeterApi
-            Path: /user/create
+            Path: /followee/list
             Method: POST
       CodeUri: getFollowees
     Metadata:
@@ -304,7 +304,7 @@ Resources:
           Properties:
             RestApiId:
               Ref: tweeterApi
-            Path: /user/create
+            Path: /follower/list
             Method: POST
       CodeUri: getFollowers
     Metadata:
@@ -327,11 +327,34 @@ Resources:
           Properties:
             RestApiId:
               Ref: tweeterApi
-            Path: /user/create
+            Path: /feed/list
             Method: POST
       CodeUri: getFeed
     Metadata:
       SamResourceId: getFeed
+  getStory:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getStory
+      Handler: lambda/status/GetStoryLambda.handler
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - AmazonSESFullAccess
+      - CloudWatchFullAccess
+      - AmazonDynamoDBFullAccess
+      - AmazonS3FullAccess
+      - AmazonSQSFullAccess
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: tweeterApi
+            Path: /story/list
+            Method: POST
+      CodeUri: getStory
+    Metadata:
+      SamResourceId: getStory
   visitTable:
     Type: AWS::DynamoDB::Table
     Properties:
