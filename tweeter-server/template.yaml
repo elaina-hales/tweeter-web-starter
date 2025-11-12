@@ -256,11 +256,11 @@ Resources:
             Path: /story/list  ##### TODO: Set Path
             Method: POST
 
-  userCreateFunction:  ##### TODO: Set function name
+  postStatus:  ##### TODO: Set function name
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: userCreateFunction  ##### TODO: Set function name
-      Handler: handlers/users/UserCreateHandler.userCreateHandler  ##### TODO: Set Handler
+      FunctionName: postStatus  ##### TODO: Set function name
+      Handler: lambda/status/PostStatusLambda.handler  ##### TODO: Set Handler
       Policies: *commonPolicies
       Events:
         PostApi:

@@ -3,6 +3,8 @@ import {
   PagedStatusItemResponse,
   PagedUserItemRequest,
   PagedUserItemResponse,
+  PostStatusRequest,
+  PostStatusResponse,
   Status,
   User,
   UserDto,
@@ -119,6 +121,19 @@ export class ServerFacade {
       throw new Error(response.message ?? undefined);
     }
   }
+
+  public async postStatus(
+    request: PostStatusRequest
+  ): Promise<void> {
+    const response = await this.clientCommunicator.doPost<
+      PostStatusRequest,
+      PostStatusResponse
+    >(request, "/status/post");
+
+    // Handle errors
+    if (!response.success) {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
 }
-//
-// new Status(dto.post, new User(dto.user.firstName, ), dto.timestamp)
