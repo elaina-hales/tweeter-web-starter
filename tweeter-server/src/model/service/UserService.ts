@@ -1,4 +1,3 @@
-import { Buffer } from "buffer";
 import { AuthToken, User, FakeData, UserDto } from "tweeter-shared";
 import { Service } from "./Service";
 
@@ -8,6 +7,7 @@ export class UserService implements Service {
     alias: string
   ): Promise<UserDto | null> {
     // TODO: Replace with the result of calling server
+    // get request 
     const user = FakeData.instance.findUserByAlias(alias);
     if (user == null){
       return null;

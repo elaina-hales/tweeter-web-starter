@@ -1,15 +1,24 @@
-import { AuthToken, User, FakeData, UserDto } from "tweeter-shared";
+import { User, FakeData, UserDto } from "tweeter-shared";
 import { Service } from "./Service";
+import { FollowDao } from "../../dao/FollowDao";
+import { DaoFactory } from "../../dao/factory/DaoFactory";
 
 export class FollowService implements Service {
+  private followDao: FollowDao;
+
+  constructor (daoFactory: DaoFactory) {
+    this.followDao = daoFactory.createFollowsDao();
+  }
+  
   public async loadMoreFollowees (
-      token: string,
-      userAlias: string,
-      pageSize: number,
-      lastItem: UserDto | null
-    ): Promise<[UserDto[], boolean]> {
-        // TODO: Replace with the result of calling server
-      return this.getFakeData(lastItem, pageSize, userAlias);
+    token: string,
+    userAlias: string,
+    pageSize: number,
+    lastItem: UserDto | null
+  ): Promise<[UserDto[], boolean]> {
+    // TODO: Replace with the result of calling server
+    const [follows, hasMore] = await this.followDao.getPageOfFollowees(userAlias, pageSize, lastItem?.alias);
+    return this.getFakeData(lastItem, pageSize, userAlias);
   };
   
 
