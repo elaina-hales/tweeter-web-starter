@@ -395,10 +395,6 @@ Resources:
             RestApiId: !Ref tweeterApi
             Path: /user/unfollow  ##### TODO: Set Path
             Method: POST
-  #
-  # TODO: ADD MORE WEB API LAMBDA DEFINITIONS HERE
-  #
-
 
   #
   # SQS Queue Lambda Functions  (This will become relevant in Milestone 4. For M3, leave this section commented out.)
@@ -456,19 +452,15 @@ Resources:
           Projection:
             ProjectionType: ALL
 
-  follows:  ##### TODO: Change to match the table name
+  followsTable:  ##### TODO: Change to match the table name
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: follows  ##### TODO: Set the actual table name
+      TableName: followsTable  ##### TODO: Set the actual table name
       AttributeDefinitions:
         ##### TODO: Add attributes that will be partition or sort keys, including their datatypes (for both table and index)
         - AttributeName: follower_handle
           AttributeType: S
         - AttributeName: followee_handle
-          AttributeType: S
-        - AttributeName: follower_name
-          AttributeType: S
-        - AttributeName: followee_name
           AttributeType: S
       KeySchema:
         - AttributeName: follower_handle  ##### TODO: Set table partition key
@@ -491,6 +483,78 @@ Resources:
             WriteCapacityUnits: 1
           Projection:
             ProjectionType: ALL
+
+  usersTable:  ##### TODO: Change to match the table name
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: usersTable  ##### TODO: Set the actual table name
+      AttributeDefinitions:
+        ##### TODO: Add attributes that will be partition or sort keys, including their datatypes (for both table and index)
+        - AttributeName: handle  ##### TODO: Set table partition key
+          AttributeType: S
+      KeySchema:
+        - AttributeName: handle  ##### TODO: Set table partition key
+          KeyType: HASH
+      BillingMode: PROVISIONED
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  storyTable:  ##### TODO: Change to match the table name
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: storyTable  ##### TODO: Set the actual table name
+      AttributeDefinitions:
+        ##### TODO: Add attributes that will be partition or sort keys, including their datatypes (for both table and index)
+        - AttributeName: handle  ##### TODO: Set index partition key
+          AttributeType: S
+        - AttributeName: timestamp ##### TODO: Set index sort key
+          AttributeType: N
+      KeySchema:
+        - AttributeName: handle  ##### TODO: Set index partition key
+          KeyType: HASH
+        - AttributeName: timestamp ##### TODO: Set index sort key
+          KeyType: RANGE
+      BillingMode: PROVISIONED
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  
+  feedTable:  ##### TODO: Change to match the table name
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: feedTable  ##### TODO: Set the actual table name
+      AttributeDefinitions:
+        ##### TODO: Add attributes that will be partition or sort keys, including their datatypes (for both table and index)
+        - AttributeName: follower_alias  ##### TODO: Set index partition key
+          AttributeType: S
+        - AttributeName: timestamp ##### TODO: Set index sort key
+          AttributeType: N
+      KeySchema:
+        - AttributeName: follower_alias  ##### TODO: Set index partition key
+          KeyType: HASH
+        - AttributeName: timestamp ##### TODO: Set index sort key
+          KeyType: RANGE
+      BillingMode: PROVISIONED
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  
+  sessionsTable:  ##### TODO: Change to match the table name
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: sessionsTable  ##### TODO: Set the actual table name
+      AttributeDefinitions:
+        ##### TODO: Add attributes that will be partition or sort keys, including their datatypes (for both table and index)
+        - AttributeName: authtoken  ##### TODO: Set index partition key
+          AttributeType: S
+      KeySchema:
+        - AttributeName: authtoken  ##### TODO: Set index partition key
+          KeyType: HASH
+      BillingMode: PROVISIONED
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
 
   #
   # TODO: ADD MORE TABLE DEFINITIONS HERE

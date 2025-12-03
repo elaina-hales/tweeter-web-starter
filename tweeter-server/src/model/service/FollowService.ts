@@ -2,12 +2,15 @@ import { User, FakeData, UserDto } from "tweeter-shared";
 import { Service } from "./Service";
 import { FollowDao } from "../../dao/FollowDao";
 import { DaoFactory } from "../../dao/factory/DaoFactory";
+import { UserDao } from "../../dao/UserDao";
 
 export class FollowService implements Service {
   private followDao: FollowDao;
+  private userDao: UserDao;
 
   constructor (daoFactory: DaoFactory) {
     this.followDao = daoFactory.createFollowsDao();
+    this.userDao = daoFactory.createUserDao();
   }
   
   public async loadMoreFollowees (
@@ -17,8 +20,16 @@ export class FollowService implements Service {
     lastItem: UserDto | null
   ): Promise<[UserDto[], boolean]> {
     // TODO: Replace with the result of calling server
+    // return this.getFakeData(lastItem, pageSize, userAlias);
     const [follows, hasMore] = await this.followDao.getPageOfFollowees(userAlias, pageSize, lastItem?.alias);
-    return this.getFakeData(lastItem, pageSize, userAlias);
+    const items: UserDto[] = [];
+    for (let follow of follows) {
+      const item = await this.userDao.getUser(follow.followee_handle);
+      if (item != null){
+        items.push(item);
+      }
+    }
+    return [items, hasMore];
   };
   
 
