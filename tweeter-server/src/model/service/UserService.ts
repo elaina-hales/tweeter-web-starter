@@ -1,18 +1,34 @@
 import { AuthToken, User, FakeData, UserDto } from "tweeter-shared";
 import { Service } from "./Service";
+import { DaoFactory } from "../../dao/factory/DaoFactory";
+import { UserDao } from "../../dao/UserDao";
+import { UserTableData } from "../../dao/entity/UserTableData";
+import { AuthtokenDao } from "../../dao/AuthtokenDao";
+import { S3Dao } from "../../dao/S3DAO";
+import * as bycrpt from "bcryptjs";
 
 export class UserService implements Service {
+  private userDao: UserDao;
+  private authDao: AuthtokenDao;
+  private s3Dao: S3Dao;
+
+  constructor (daoFactory: DaoFactory) {
+    this.userDao = daoFactory.createUserDao();
+    this.authDao = daoFactory.createAuthtokenDao();
+    this.s3Dao = daoFactory.createS3Dao();
+  }
+  
   public async getUser (
     token: string,
     alias: string
   ): Promise<UserDto | null> {
     // TODO: Replace with the result of calling server
     // get request 
-    const user = FakeData.instance.findUserByAlias(alias);
+    const user = await this.userDao.getUser(alias);
     if (user == null){
       return null;
     }
-    return user.dto;
+    return user;
   };
 
   public async login (
@@ -20,6 +36,9 @@ export class UserService implements Service {
     password: string
   ): Promise<[User, AuthToken]> {
     // TODO: Replace with the result of calling the server
+
+    // get hash from db
+    // to check hash, bcrypt.compare(entered_pw, hashed_pw) 
     const user = FakeData.instance.firstUser;
 
     if (user === null) {
@@ -37,14 +56,25 @@ export class UserService implements Service {
     userImageBytes: string,
     imageFileExtension: string
   ): Promise<[User, AuthToken]> {
-    // TODO: Replace with the result of calling the server
-    const user = FakeData.instance.firstUser;
+    const user = await this.userDao.getUser(alias);
 
-    if (user === null) {
-      throw new Error("Invalid registration");
+    if (user) {
+      throw new Error("Alias is already taken.");
+    } else {
+
+      const salt = await bycrpt.genSaltSync(10);
+      const hash = await bycrpt.hashSync(password, salt);
+      
+      const url = await this.s3Dao.putImage(firstName + imageFileExtension, userImageBytes);
+
+      let userData: UserTableData = new UserTableData(alias, hash, firstName, lastName, url, 0, 0);
+
+      let user: User = await this.userDao.putUser(userData);
+      
+      const [authtoken, timestamp] = await this.authDao.putToken();
+
+      return [user, new AuthToken(authtoken, timestamp)];
     }
-
-    return [user, FakeData.instance.authToken];
   };
 
   public async getIsFollowerStatus (

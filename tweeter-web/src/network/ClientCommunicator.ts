@@ -40,7 +40,6 @@ export class ClientCommunicator {
         return response;
       } else {
         const error = await resp.json();
-        console.log(JSON.stringify(error));
         throw new Error(error.errorMessage);
       }
     } catch (error) {
