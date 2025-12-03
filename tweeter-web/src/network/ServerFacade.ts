@@ -29,10 +29,9 @@ import {
   UserDto,
 } from "tweeter-shared";
 import { ClientCommunicator } from "./ClientCommunicator";
-import { LoginPresenter } from "../presenter/LoginPresenter";
 
 export class ServerFacade {
-  private SERVER_URL = "https://d1079cnpzj.execute-api.us-east-1.amazonaws.com/dev";
+  private SERVER_URL = "https://bptuf74j1a.execute-api.us-east-1.amazonaws.com/prod";
 
   private clientCommunicator = new ClientCommunicator(this.SERVER_URL);
 
