@@ -30,7 +30,7 @@ export class UserDaoDyanmoDB implements UserDao {
         };
     }
 
-    async getUser(alias: string): Promise<UserDto | null> {
+    async getUser(alias: string): Promise<UserTableData | null> {
         const params = {
             TableName: this.tableName,
             Key: this.generateAliasItem(alias),
@@ -39,10 +39,13 @@ export class UserDaoDyanmoDB implements UserDao {
         return output.Item == undefined
             ? null
             : {
-                firstName: output.Item[this.firstNameAttr],
-                lastName: output.Item[this.lastNameAttr],
-                alias: output.Item[this.handleAttr],
-                imageUrl: output.Item[this.urlAttr],
+                handle: output.Item[this.handleAttr],
+                first_name: output.Item[this.firstNameAttr],
+                last_name: output.Item[this.lastNameAttr],
+                image_url: output.Item[this.urlAttr],
+                password: output.Item[this.passwordAttr],
+                followee_count: output.Item[this.followeeCountAttr],
+                follower_count: output.Item[this.followerCountAttr]
             };
     }
 
@@ -62,6 +65,28 @@ export class UserDaoDyanmoDB implements UserDao {
         };
         await this.client.send(new PutCommand(params));
         return new User(user.first_name, user.last_name, user.handle, user.image_url);
+    }
+
+    async updateFollowerCount(alias: string, value: number): Promise<void> {
+        const params = {
+            TableName: this.tableName,
+            Key: {[this.handleAttr]: alias},
+            ExpressionAttributeValues: {":n_follower": value},
+            UpdateExpression:
+                "ADD " + this.followerCountAttr + " :n_follower",
+        };
+        await this.client.send(new UpdateCommand(params));
+    }
+
+    async updateFolloweeCount(alias: string, value: number): Promise<void> {
+        const params = {
+            TableName: this.tableName,
+            Key: {[this.handleAttr]: alias},
+            ExpressionAttributeValues: {":n_followee": value},
+            UpdateExpression:
+                "ADD " + this.followeeCountAttr + " :n_followee",
+        };
+        await this.client.send(new UpdateCommand(params));
     }
     
 }

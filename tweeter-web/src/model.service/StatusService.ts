@@ -27,9 +27,10 @@ export class StatusService implements Service {
     ): Promise<[Status[], boolean]>{
         // TODO: Replace with the result of calling server
         if (lastItem === null) {
-            return this.serverFacade.getMoreStoryItems({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: null});
+            console.log("Service call");
+            return await this.serverFacade.getMoreStoryItems({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: null});
         } else {
-            return this.serverFacade.getMoreStoryItems({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: lastItem.dto});
+            return await this.serverFacade.getMoreStoryItems({token: authToken.token, userAlias: userAlias, pageSize: pageSize, lastItem: lastItem.dto});
         }    
     };
 

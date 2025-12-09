@@ -127,6 +127,8 @@ export class ServerFacade {
       response.success && response.items
         ? response.items.map((dto) => Status.fromDto(dto) as Status)
         : null;
+    
+    console.log(items);
 
     // Handle errors
     if (response.success) {

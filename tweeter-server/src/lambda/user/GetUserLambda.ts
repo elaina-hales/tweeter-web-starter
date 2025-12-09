@@ -1,14 +1,21 @@
-import { GetUserRequest, GetUserResponse } from "tweeter-shared";
+import { GetUserRequest, GetUserResponse, TweeterResponse } from "tweeter-shared";
 import { UserService } from "../../model/service/UserService";
 import { DynamoDaoFactory } from "../../dao/factory/DynamoDaoFactory";
 
-export const handler = async(request: GetUserRequest) : Promise<GetUserResponse> => {
+export const handler = async(request: GetUserRequest) : Promise<GetUserResponse | TweeterResponse> => {
     const userService = new UserService(new DynamoDaoFactory);
-    const user = await userService.getUser(request.token, request.userAlias);
-    
-    return {
-        success: true,
-        message : null,
-        user: user,
+    try {
+        const user = await userService.getUser(request.token, request.userAlias);
+        return {
+            success: true,
+            message : null,
+            user: user,
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: (error as Error).message
+        }
     }
+    
 }
